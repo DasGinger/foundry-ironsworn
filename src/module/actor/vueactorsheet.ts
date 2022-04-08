@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 export class IronswornVueActorSheet extends ActorSheet {
-  _vm: (Vue & Record<string, any>) | null
+  _vm: (Vue.Component & Record<string, any>) | null
 
   /** @override */
   constructor(opts?: any, data?: any) {
@@ -22,10 +22,10 @@ export class IronswornVueActorSheet extends ActorSheet {
       const states = Application.RENDER_STATES
       if (this._state == states.RENDERING || this._state == states.RENDERED) {
         // Update the Vue app with our updated actor/item/flag data.
-        if (sheetData?.actor) Vue.set(this._vm, 'actor', sheetData.actor)
-        if (sheetData?.data) Vue.set(this._vm.actor, 'data', sheetData.data)
-        if (sheetData?.actor?.items) Vue.set(this._vm.actor, 'items', sheetData.actor.items)
-        if (sheetData?.actor?.flags) Vue.set(this._vm.actor, 'flags', sheetData.actor.flags)
+        if (sheetData?.actor) this._vm['actor'] = sheetData.actor
+        if (sheetData?.data) this._vm.actor['data'] = sheetData.data
+        if (sheetData?.actor?.items) this._vm.actor['items'] = sheetData.actor.items
+        if (sheetData?.actor?.flags) this._vm.actor['flags'] = sheetData.actor.flags
         this._updateEditors($(this.element))
         this.activateVueListeners($(this.element), true)
         return this
@@ -48,7 +48,7 @@ export class IronswornVueActorSheet extends ActorSheet {
         // Prepare the actor data.
         const el = this.element.find('.ironsworn-vueport')
         // Render Vue and assign it to prevent later rendering.
-        VuePort.render(null, el[0], { data: sheetData }).then((vm) => {
+        VuePort.render(null, el[0], { data: sheetData }).then((vm: Vue.Component) => {
           this._vm = vm
           const html = $(this.element)
           this.activateVueListeners(html)

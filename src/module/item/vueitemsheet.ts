@@ -3,7 +3,7 @@ import { IronswornSettings } from '../helpers/settings'
 import { IronswornItem } from './item'
 
 export class IronswornVueItemSheet extends ItemSheet {
-  _vm: (Vue & Record<string, any>) | null
+  _vm: (Vue.Component & Record<string, any>) | null
 
   /** @override */
   constructor(object: IronswornItem, opts?: any) {
@@ -40,9 +40,9 @@ export class IronswornVueItemSheet extends ItemSheet {
       const states = Application.RENDER_STATES
       if (this._state == states.RENDERING || this._state == states.RENDERED) {
         // Update the Vue app with our updated item/flag data.
-        if (sheetData?.item) Vue.set(this._vm, 'item', sheetData.item)
-        if (sheetData?.data) Vue.set(this._vm.item, 'data', sheetData.data)
-        if (sheetData?.item?.flags) Vue.set(this._vm.item, 'flags', sheetData.item.flags)
+        if (sheetData?.item) this._vm['item'] = sheetData.item
+        if (sheetData?.data) this._vm.item['data'] = sheetData.data
+        if (sheetData?.item?.flags) this._vm.item['flags'] = sheetData.item.flags
         this._updateEditors($(this.element))
         this.activateVueListeners($(this.element), true)
         return this

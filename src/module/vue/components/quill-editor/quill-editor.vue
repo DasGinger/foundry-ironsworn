@@ -43,7 +43,7 @@
 </style>
 
 <script>
-import { VueEditor } from 'vue2-editor'
+import { VueEditor } from 'vue3-editor'
 import Delta from 'quill-delta'
 import FoundryLink from './foundry-link'
 
